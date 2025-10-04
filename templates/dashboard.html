@@ -30,6 +30,17 @@
 </div>
 
 <script>
+    // Get token from URL parameters or localStorage
+    const urlParams = new URLSearchParams(window.location.search);
+    const tokenFromUrl = urlParams.get('token');
+    
+    if (tokenFromUrl) {
+        // Store token from URL in localStorage
+        localStorage.setItem('access_token', tokenFromUrl);
+        // Remove token from URL for security
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+    
     // Check if user is authenticated
     const token = localStorage.getItem('access_token');
     if (!token) {

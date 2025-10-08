@@ -4,6 +4,9 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from starlette.middleware.sessions import SessionMiddleware
 from contextlib import asynccontextmanager
+import time
+from sqlalchemy import text
+from sqlalchemy.exc import OperationalError
 import uvicorn
 
 from app.api.auth.routes import auth_router
@@ -14,7 +17,17 @@ from app.core.config import settings
 # Create database tables
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup
+    # Startup: wait for DB to be ready, then create tables
+    max_attempts = 30
+    for attempt in range(1, max_attempts + 1):
+        try:
+            with engine.connect() as conn:
+                conn.execute(text("SELECT 1"))
+            break
+        except OperationalError:
+            if attempt == max_attempts:
+                raise
+            time.sleep(2)
     Base.metadata.create_all(bind=engine)
     yield
     # Shutdown
@@ -52,9 +65,19 @@ async def login_page(request: Request):
 async def signup_page(request: Request):
     return templates.TemplateResponse("signup.html", {"request": request})
 
+@app.post("/signup", response_class=HTMLResponse)
+async def signup_form_submit(request: Request):
+    """Handle form submission from signup page"""
+    from fastapi.responses import RedirectResponse
+    return RedirectResponse(url="/signup", status_code=302)
+
 @app.get("/dashboard", response_class=HTMLResponse)
 async def dashboard_page(request: Request):
     return templates.TemplateResponse("dashboard.html", {"request": request})
+
+@app.get("/verification-success", response_class=HTMLResponse)
+async def verification_success_page(request: Request):
+    return templates.TemplateResponse("verification_success.html", {"request": request})
 
 @app.get("/health")
 async def health_check():

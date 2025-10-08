@@ -11,5 +11,7 @@ jinja2==3.1.2
 pydantic-settings==2.0.3
 psycopg2-binary==2.9.9
 itsdangerous==2.1.2
-pydantic[email]
-email-validator
+pydantic[email]==2.5.0
+email-validator==2.1.0
+requests==2.31.0
+# SMTP email support is built into Python standard library

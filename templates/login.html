@@ -10,7 +10,7 @@
             <p class="text-muted">Sign in to your account</p>
         </div>
         
-        <form id="loginForm">
+        <form id="loginForm" method="POST" action="/auth/login" onsubmit="return false;" data-custom-handler="true">
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
                 <input type="email" class="form-control" id="email" name="email" required>
@@ -43,6 +43,35 @@
 </div>
 
 <script>
-    handleFormSubmit('loginForm', '/auth/login', '/dashboard');
+    // Robust login handler: intercept submit, POST to API, store token, and redirect
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('loginForm');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+
+            try {
+                const response = await fetch('/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result && result.access_token) {
+                    localStorage.setItem('access_token', result.access_token);
+                    window.location.href = '/dashboard';
+                } else {
+                    alert(result.detail || 'Invalid email or password');
+                }
+            } catch (err) {
+                alert('Network error. Please try again.');
+            }
+        });
+    });
 </script>
 {% endblock %}

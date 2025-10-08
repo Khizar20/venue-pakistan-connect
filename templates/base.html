@@ -69,38 +69,40 @@
         // Handle form submissions with fetch API
         function handleFormSubmit(formId, endpoint, redirectUrl = null) {
             const form = document.getElementById(formId);
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                const formData = new FormData(form);
-                const data = Object.fromEntries(formData);
-                
-                try {
-                    const response = await fetch(endpoint, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(data)
-                    });
+            if (form && !form.hasAttribute('data-custom-handler')) {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
                     
-                    const result = await response.json();
+                    const formData = new FormData(form);
+                    const data = Object.fromEntries(formData);
                     
-                    if (response.ok) {
-                        if (endpoint.includes('login')) {
-                            localStorage.setItem('access_token', result.access_token);
-                            window.location.href = redirectUrl || '/dashboard';
+                    try {
+                        const response = await fetch(endpoint, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(data)
+                        });
+                        
+                        const result = await response.json();
+                        
+                        if (response.ok) {
+                            if (endpoint.includes('login')) {
+                                localStorage.setItem('access_token', result.access_token);
+                                window.location.href = redirectUrl || '/dashboard';
+                            } else {
+                                alert('Registration successful! Please login.');
+                                window.location.href = '/login';
+                            }
                         } else {
-                            alert('Registration successful! Please login.');
-                            window.location.href = '/login';
+                            alert(result.detail || 'An error occurred');
                         }
-                    } else {
-                        alert(result.detail || 'An error occurred');
+                    } catch (error) {
+                        alert('Network error. Please try again.');
                     }
-                } catch (error) {
-                    alert('Network error. Please try again.');
-                }
-            });
+                });
+            }
         }
     </script>
 </body>

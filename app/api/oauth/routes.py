@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Request
 from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
-from database import get_db, User
-from auth import create_access_token, hash_password
-from models import UserResponse
-from settings import settings
+from app.core.database import get_db, User
+from app.utils.auth import create_access_token, hash_password
+from app.schemas.user import UserResponse
+from app.core.config import settings
 import httpx
 import urllib.parse
 

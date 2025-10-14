@@ -1,0 +1,19 @@
+# Ignore environment files
+.env
+
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Logs
+*.log
+
+# Alembic cache
+alembic/__pycache__/
+
+# Editor/IDE settings (optional)
+.vscode/
+.idea/

@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 30 20% 98%;
+    --foreground: 0 40% 18%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 40% 18%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 40% 18%;
+
+    --primary: 0 40% 30%;
+    --primary-foreground: 30 20% 98%;
+
+    --secondary: 30 25% 92%;
+    --secondary-foreground: 0 40% 30%;
+
+    --muted: 30 15% 88%;
+    --muted-foreground: 0 20% 45%;
+
+    --accent: 38 70% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 30 15% 88%;
+    --input: 30 15% 92%;
+    --ring: 0 40% 30%;
+
+    --radius: 0.5rem;
+
+    /* Shadiejo Brand Colors */
+    --maroon-dark: 0 42% 25%;
+    --maroon: 0 40% 30%;
+    --maroon-light: 0 38% 40%;
+    --cream: 30 25% 92%;
+    --cream-dark: 30 20% 88%;
+    --gold: 38 70% 50%;
+    --gold-light: 38 65% 60%;
+    
+    /* Design Enhancements */
+    --shadow-elegant: 0 8px 30px -8px hsl(0 40% 30% / 0.25);
+    --shadow-card: 0 4px 20px -4px hsl(0 40% 30% / 0.15);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dark {
+    --background: 0 30% 10%;
+    --foreground: 30 25% 96%;
+
+    --card: 0 25% 15%;
+    --card-foreground: 30 25% 96%;
+
+    --popover: 0 25% 15%;
+    --popover-foreground: 30 25% 96%;
+
+    --primary: 30 25% 96%;
+    --primary-foreground: 0 40% 30%;
+
+    --secondary: 0 25% 20%;
+    --secondary-foreground: 30 25% 96%;
+
+    --muted: 0 20% 25%;
+    --muted-foreground: 30 15% 65%;
+
+    --accent: 40 75% 60%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 20% 25%;
+    --input: 0 20% 25%;
+    --ring: 30 25% 96%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
+  }
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap');

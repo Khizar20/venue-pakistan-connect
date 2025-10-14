@@ -1,1 +1,0 @@
-# Shadiejo FastAPI Application

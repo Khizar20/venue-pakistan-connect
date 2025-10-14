@@ -8,50 +8,48 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 30 25% 96%;
-    --foreground: 15 20% 15%;
+    --background: 30 20% 98%;
+    --foreground: 0 40% 18%;
 
     --card: 0 0% 100%;
-    --card-foreground: 15 20% 15%;
+    --card-foreground: 0 40% 18%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 15 20% 15%;
+    --popover-foreground: 0 40% 18%;
 
-    --primary: 0 45% 20%;
-    --primary-foreground: 30 25% 96%;
+    --primary: 0 40% 30%;
+    --primary-foreground: 30 20% 98%;
 
-    --secondary: 30 35% 90%;
-    --secondary-foreground: 0 45% 20%;
+    --secondary: 30 25% 92%;
+    --secondary-foreground: 0 40% 30%;
 
-    --muted: 30 20% 85%;
-    --muted-foreground: 15 15% 45%;
+    --muted: 30 15% 88%;
+    --muted-foreground: 0 20% 45%;
 
-    --accent: 40 80% 55%;
+    --accent: 38 70% 50%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 30 20% 85%;
-    --input: 30 20% 90%;
-    --ring: 0 45% 20%;
+    --border: 30 15% 88%;
+    --input: 30 15% 92%;
+    --ring: 0 40% 30%;
 
     --radius: 0.5rem;
 
-    /* Shadiejo Brand Colors - Darker Maroon */
-    --maroon-dark: 0 45% 20%;
-    --maroon: 0 40% 28%;
-    --maroon-light: 0 35% 38%;
-    --cream: 30 35% 90%;
-    --cream-dark: 30 30% 85%;
-    --gold: 40 80% 55%;
-    --gold-light: 40 75% 65%;
+    /* Shadiejo Brand Colors */
+    --maroon-dark: 0 42% 25%;
+    --maroon: 0 40% 30%;
+    --maroon-light: 0 38% 40%;
+    --cream: 30 25% 92%;
+    --cream-dark: 30 20% 88%;
+    --gold: 38 70% 50%;
+    --gold-light: 38 65% 60%;
     
     /* Design Enhancements */
-    --gradient-primary: linear-gradient(135deg, hsl(0 45% 20%) 0%, hsl(0 40% 28%) 100%);
-    --gradient-hero: linear-gradient(135deg, hsl(0 45% 20% / 0.95) 0%, hsl(0 40% 28% / 0.85) 50%, hsl(0 45% 20% / 0.95) 100%);
-    --shadow-elegant: 0 10px 40px -10px hsl(0 45% 20% / 0.3);
-    --shadow-glow: 0 0 60px hsl(40 80% 55% / 0.15);
+    --shadow-elegant: 0 8px 30px -8px hsl(0 40% 30% / 0.25);
+    --shadow-card: 0 4px 20px -4px hsl(0 40% 30% / 0.15);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
@@ -97,9 +95,9 @@ All colors MUST be HSL.
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
-    font-weight: 700;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 600;
   }
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap');

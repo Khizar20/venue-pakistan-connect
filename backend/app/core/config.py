@@ -3,18 +3,18 @@ from typing import Optional
 
 
 class Settings(BaseSettings):
-    database_url: str
-    secret_key: str
-    google_client_id: Optional[str] = None
-    google_client_secret: Optional[str] = None
+    DATABASE_URL: str
+    SECRET_KEY: str
+    GOOGLE_CLIENT_ID: Optional[str] = None
+    GOOGLE_CLIENT_SECRET: Optional[str] = None
     
     # SMTP Email Settings
-    smtp_server: Optional[str] = None
-    smtp_port: Optional[int] = 587
-    smtp_username: Optional[str] = None
-    smtp_password: Optional[str] = None
-    smtp_use_tls: Optional[bool] = True
-    smtp_from_email: Optional[str] = None
+    SMTP_SERVER: Optional[str] = None
+    SMTP_PORT: Optional[int] = 587
+    SMTP_USERNAME: Optional[str] = None
+    SMTP_PASSWORD: Optional[str] = None
+    SMTP_USE_TLS: Optional[bool] = True
+    SMTP_FROM_EMAIL: Optional[str] = None
 
     # Pydantic v2 style config
     model_config = SettingsConfigDict(

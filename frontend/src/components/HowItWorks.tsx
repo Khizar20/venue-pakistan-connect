@@ -35,9 +35,9 @@ const HowItWorks = () => {
           {steps.map((step, index) => (
             <div key={index} className="text-center group">
               <div className="mb-6 flex justify-center">
-                <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center group-hover:bg-gold transition-all duration-300 shadow-md relative">
+                <div className="w-20 h-20 rounded-full bg-primary flex items-center justify-center group-hover:bg-beige transition-all duration-300 shadow-md relative">
                   <step.icon className="w-10 h-10 text-primary-foreground" />
-                  <div className="absolute -top-2 -right-2 w-7 h-7 bg-gold rounded-full flex items-center justify-center text-white text-sm font-semibold">
+                  <div className="absolute -top-2 -right-2 w-7 h-7 bg-beige rounded-full flex items-center justify-center text-white text-sm font-semibold">
                     {index + 1}
                   </div>
                 </div>

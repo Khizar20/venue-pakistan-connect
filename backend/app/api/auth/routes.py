@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status, Request
 from fastapi.security import HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
 from app.core.database import get_db, User, PendingVerification
-from app.utils.auth import hash_password, verify_password, create_access_token, get_current_user
+from app.utils.auth import hash_password, verify_password, create_access_token, get_current_user, verify_admin_credentials
 from app.schemas.user import UserCreate, UserLogin, UserResponse, Token
 from app.services.email import email_service
 from app.utils.tokens import generate_verification_token, generate_verification_token_expiry, is_token_expired
@@ -107,6 +107,40 @@ async def get_current_user_info(current_user: User = Depends(get_current_user)):
     """Get current user information"""
     return current_user
 
+@auth_router.post("/admin/login", response_model=Token)
+async def admin_login(request: Request):
+    """Admin login endpoint with hardcoded credentials"""
+    try:
+        payload = await request.json()
+        username = payload.get("username")
+        password = payload.get("password")
+    except Exception:
+        form = await request.form()
+        username = form.get("username")
+        password = form.get("password")
+    
+    if not username or not password:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Username and password are required"
+        )
+    
+    # Verify admin credentials
+    if not verify_admin_credentials(username, password):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid admin credentials"
+        )
+    
+    # Create access token with admin type
+    access_token = create_access_token(data={"sub": "admin", "type": "admin"})
+    
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "user_type": "admin"
+    }
+
 @auth_router.post("/logout")
 async def logout():
     """Logout user (client should discard token)"""
@@ -146,7 +180,7 @@ async def verify_email(token: str, db: Session = Depends(get_db)):
         
         from fastapi.responses import RedirectResponse
         return RedirectResponse(
-            url="http://localhost:8000/verification-success",
+            url="http://localhost:8080/verification-success",
             status_code=status.HTTP_302_FOUND
         )
     
@@ -176,7 +210,7 @@ async def verify_email(token: str, db: Session = Depends(get_db)):
     
     # Redirect to success page
     return RedirectResponse(
-        url="http://localhost:8000/verification-success",
+        url="http://localhost:8080/verification-success",
         status_code=status.HTTP_302_FOUND
     )
 

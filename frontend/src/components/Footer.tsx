@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="container mx-auto">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8 mb-8">
           <div>
-            <Link to="/" className="font-serif text-3xl text-primary-foreground font-semibold hover:text-gold transition-colors">
+            <Link to="/" className="font-serif text-3xl text-primary-foreground font-semibold hover:text-beige transition-colors">
               Shadiejo
             </Link>
             <p className="text-primary-foreground/70 mt-2 text-sm max-w-xs">
@@ -16,13 +16,13 @@ const Footer = () => {
           </div>
           
           <div className="flex gap-8">
-            <Link to="/about" className="text-primary-foreground hover:text-gold transition-all text-sm font-medium">
+            <Link to="/about" className="text-primary-foreground hover:text-beige transition-all text-sm font-medium">
               About Us
             </Link>
-            <Link to="/contact" className="text-primary-foreground hover:text-gold transition-all text-sm font-medium">
+            <Link to="/contact" className="text-primary-foreground hover:text-beige transition-all text-sm font-medium">
               Contact
             </Link>
-            <Link to="/privacy" className="text-primary-foreground hover:text-gold transition-all text-sm font-medium">
+            <Link to="/privacy" className="text-primary-foreground hover:text-beige transition-all text-sm font-medium">
               Privacy
             </Link>
           </div>
@@ -32,7 +32,7 @@ const Footer = () => {
               href="https://facebook.com" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="w-10 h-10 rounded-full bg-white/10 hover:bg-gold flex items-center justify-center transition-all duration-300 group"
+              className="w-10 h-10 rounded-full bg-white/10 hover:bg-beige flex items-center justify-center transition-all duration-300 group"
               aria-label="Facebook"
             >
               <Facebook className="w-5 h-5 text-primary-foreground group-hover:text-primary transition-colors" />
@@ -41,7 +41,7 @@ const Footer = () => {
               href="https://instagram.com" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="w-10 h-10 rounded-full bg-white/10 hover:bg-gold flex items-center justify-center transition-all duration-300 group"
+              className="w-10 h-10 rounded-full bg-white/10 hover:bg-beige flex items-center justify-center transition-all duration-300 group"
               aria-label="Instagram"
             >
               <Instagram className="w-5 h-5 text-primary-foreground group-hover:text-primary transition-colors" />
@@ -50,7 +50,7 @@ const Footer = () => {
               href="https://twitter.com" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="w-10 h-10 rounded-full bg-white/10 hover:bg-gold flex items-center justify-center transition-all duration-300 group"
+              className="w-10 h-10 rounded-full bg-white/10 hover:bg-beige flex items-center justify-center transition-all duration-300 group"
               aria-label="Twitter"
             >
               <Twitter className="w-5 h-5 text-primary-foreground group-hover:text-primary transition-colors" />

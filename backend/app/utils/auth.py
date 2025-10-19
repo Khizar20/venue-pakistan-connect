@@ -14,7 +14,7 @@ from app.core.config import settings
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 # JWT settings
-SECRET_KEY = settings.secret_key
+SECRET_KEY = settings.SECRET_KEY
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
@@ -75,3 +75,86 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
         )
     
     return user
+
+def get_current_vendor(credentials: HTTPAuthorizationCredentials = Depends(security), db: Session = Depends(get_db)):
+    """Get current authenticated vendor"""
+    from app.core.database import Vendor
+    
+    token = credentials.credentials
+    payload = verify_token(token)
+    if payload is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
+    vendor_id = payload.get("sub")
+    user_type = payload.get("type")
+    
+    if vendor_id is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
+    if user_type != "vendor":
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token type for vendor access",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
+    vendor = db.query(Vendor).filter(Vendor.id == vendor_id).first()
+    if vendor is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Vendor not found",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
+    return vendor
+
+def get_current_admin(credentials: HTTPAuthorizationCredentials = Depends(security), db: Session = Depends(get_db)):
+    """Get current authenticated admin user"""
+    token = credentials.credentials
+    payload = verify_token(token)
+    if payload is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
+    user_id = payload.get("sub")
+    user_type = payload.get("type")
+    
+    if user_id is None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
+    if user_type != "admin":
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Admin access required",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
+    # For now, we'll use a hardcoded admin check
+    # In production, you'd want to check against a database
+    if user_id != "admin":
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Admin access required",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    
+    return {"id": "admin", "username": "admin", "role": "admin"}
+
+def verify_admin_credentials(username: str, password: str) -> bool:
+    """Verify admin credentials (hardcoded for now)"""
+    return username == "admin" and password == "admin"

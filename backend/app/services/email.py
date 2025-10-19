@@ -10,12 +10,12 @@ from app.core.config import settings
 
 class EmailService:
     def __init__(self):
-        self.smtp_server = settings.smtp_server
-        self.smtp_port = settings.smtp_port
-        self.smtp_username = settings.smtp_username
-        self.smtp_password = settings.smtp_password
-        self.smtp_use_tls = settings.smtp_use_tls
-        self.from_email = settings.smtp_from_email or settings.smtp_username
+        self.smtp_server = settings.SMTP_SERVER
+        self.smtp_port = settings.SMTP_PORT
+        self.smtp_username = settings.SMTP_USERNAME
+        self.smtp_password = settings.SMTP_PASSWORD
+        self.smtp_use_tls = settings.SMTP_USE_TLS
+        self.from_email = settings.SMTP_FROM_EMAIL or settings.SMTP_USERNAME
     
     def _send_email(self, to_email: str, subject: str, html_content: str, text_content: str = None) -> bool:
         """Send email using SMTP"""
@@ -63,12 +63,18 @@ class EmailService:
             print("⚠️ Falling back to console display")
             return self._send_fallback_email(to_email, subject, html_content, text_content)
     
-    def send_verification_email(self, to_email: str, user_name: str, verification_token: str) -> bool:
-        """Send verification email to user"""
+    def send_verification_email(self, to_email: str, user_name: str, verification_token: str, verification_type: str = "user") -> bool:
+        """Send verification email to user or vendor"""
         try:
-            verification_link = f"http://localhost:8000/auth/verify?token={verification_token}"
+            if verification_type == "vendor":
+                verification_link = f"http://localhost:8000/vendor/verify?token={verification_token}"
+            else:
+                verification_link = f"http://localhost:8000/auth/verify?token={verification_token}"
             
-            subject = "Welcome to Shadiejo - Verify Your Email"
+            if verification_type == "vendor":
+                subject = "Welcome to Shadiejo - Verify Your Vendor Account"
+            else:
+                subject = "Welcome to Shadiejo - Verify Your Email"
             
             html_content = f"""
             <html>
@@ -81,7 +87,7 @@ class EmailService:
                     <p style="font-size: 16px; color: #333; margin-bottom: 20px;">Hi {user_name},</p>
                     
                     <p style="font-size: 16px; color: #333; margin-bottom: 20px;">
-                        Thank you for signing up with Shadiejo! To complete your registration, 
+                        Thank you for signing up{"as a vendor " if verification_type == "vendor" else ""}with Shadiejo! To complete your registration, 
                         please verify your email address by clicking the button below:
                     </p>
                     

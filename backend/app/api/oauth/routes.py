@@ -13,7 +13,7 @@ oauth_router = APIRouter(prefix="/auth/oauth", tags=["OAuth"])
 @oauth_router.get("/google")
 async def google_login(request: Request):
     """Initiate Google OAuth login"""
-    if not settings.google_client_id:
+    if not settings.GOOGLE_CLIENT_ID:
         raise HTTPException(
             status_code=status.HTTP_501_NOT_IMPLEMENTED,
             detail="Google OAuth not configured"
@@ -28,7 +28,7 @@ async def google_login(request: Request):
     
     # Build Google OAuth URL
     params = {
-        'client_id': settings.google_client_id,
+        'client_id': settings.GOOGLE_CLIENT_ID,
         'redirect_uri': 'http://localhost:8000/auth/oauth/google/callback',
         'scope': 'openid email profile',
         'response_type': 'code',
@@ -64,7 +64,7 @@ async def google_callback(
     for key, value in request.query_params.items():
         print(f"  {key}: {value}")
     
-    if not settings.google_client_id:
+    if not settings.GOOGLE_CLIENT_ID:
         raise HTTPException(
             status_code=status.HTTP_501_NOT_IMPLEMENTED,
             detail="Google OAuth not configured"
@@ -91,8 +91,8 @@ async def google_callback(
             token_response = await client.post(
                 'https://oauth2.googleapis.com/token',
                 data={
-                    'client_id': settings.google_client_id,
-                    'client_secret': settings.google_client_secret,
+                    'client_id': settings.GOOGLE_CLIENT_ID,
+                    'client_secret': settings.GOOGLE_CLIENT_SECRET,
                     'code': code,
                     'grant_type': 'authorization_code',
                     'redirect_uri': 'http://localhost:8000/auth/oauth/google/callback'
@@ -168,7 +168,7 @@ async def google_callback(
         
         # Redirect to frontend with token
         return RedirectResponse(
-            url=f"http://localhost:8000/dashboard?token={access_token}",
+            url=f"http://localhost:8080/dashboard?token={access_token}",
             status_code=status.HTTP_302_FOUND
         )
         

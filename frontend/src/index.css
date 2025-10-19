@@ -44,8 +44,8 @@ All colors MUST be HSL.
     --maroon-light: 0 38% 40%;
     --cream: 30 25% 92%;
     --cream-dark: 30 20% 88%;
-    --gold: 38 70% 50%;
-    --gold-light: 38 65% 60%;
+    --beige: 30 25% 70%;
+    --beige-light: 30 30% 75%;
     
     /* Design Enhancements */
     --shadow-elegant: 0 8px 30px -8px hsl(0 40% 30% / 0.25);
@@ -101,3 +101,56 @@ All colors MUST be HSL.
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&display=swap');
+
+  /* Custom utilities */
+  @layer utilities {
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    
+    /* Force beige colors for dropdown items with proper text visibility */
+    .dropdown-item-beige:hover {
+      background-color: hsl(var(--beige) / 0.1) !important;
+      color: hsl(var(--foreground)) !important;
+    }
+    
+    .dropdown-item-beige:focus {
+      background-color: hsl(var(--beige) / 0.1) !important;
+      color: hsl(var(--foreground)) !important;
+    }
+    
+    .dropdown-item-beige[data-highlighted] {
+      background-color: hsl(var(--beige) / 0.1) !important;
+      color: hsl(var(--foreground)) !important;
+    }
+    
+    /* Override any default dropdown styling with proper text visibility */
+    [data-radix-collection-item]:hover {
+      background-color: hsl(var(--beige) / 0.1) !important;
+      color: hsl(var(--foreground)) !important;
+    }
+    
+    [data-radix-collection-item]:focus {
+      background-color: hsl(var(--beige) / 0.1) !important;
+      color: hsl(var(--foreground)) !important;
+    }
+    
+    [data-radix-collection-item][data-highlighted] {
+      background-color: hsl(var(--beige) / 0.1) !important;
+      color: hsl(var(--foreground)) !important;
+    }
+    
+    /* Ensure select items have proper text color on hover */
+    [data-radix-select-item]:hover {
+      background-color: hsl(var(--beige) / 0.1) !important;
+      color: hsl(var(--foreground)) !important;
+    }
+    
+    [data-radix-select-item][data-highlighted] {
+      background-color: hsl(var(--beige) / 0.1) !important;
+      color: hsl(var(--foreground)) !important;
+    }
+  }

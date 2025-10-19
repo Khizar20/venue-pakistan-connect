@@ -1,73 +1,190 @@
-# Welcome to your Lovable project
+# Shadiejo - Full Stack Application
 
-## Project info
+A full-stack application with FastAPI backend and React frontend for venue management and user authentication.
 
-**URL**: https://lovable.dev/projects/f8ec687c-ef6e-4aa2-835a-a4fda07219cb
+## Project Structure
 
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/f8ec687c-ef6e-4aa2-835a-a4fda07219cb) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+Shadiejo/
+├── backend/                 # FastAPI Backend
+│   ├── app/                # Main application package
+│   │   ├── api/           # API routes
+│   │   │   ├── auth/      # Authentication routes
+│   │   │   └── oauth/     # OAuth routes
+│   │   ├── core/          # Core configuration
+│   │   │   ├── config.py  # Application settings
+│   │   │   └── database.py # Database models and connection
+│   │   ├── schemas/       # Pydantic models
+│   │   ├── services/      # Business logic
+│   │   ├── utils/         # Utility functions
+│   │   ├── main.py       # FastAPI application
+│   │   └── run.py        # Application runner
+│   ├── alembic/          # Database migrations
+│   ├── templates/        # HTML templates
+│   ├── static/          # Static files
+│   ├── tests/           # Test files
+│   ├── requirements.txt # Python dependencies
+│   └── README.md       # Backend documentation
+├── frontend/             # React Frontend (from Lovable)
+│   ├── src/             # Source code
+│   ├── public/          # Public assets
+│   ├── package.json     # Node.js dependencies
+│   └── vite.config.ts   # Vite configuration
+└── README.md           # This file
 ```
 
-**Edit a file directly in GitHub**
+## Backend Features (FastAPI)
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- **User Authentication**: Registration, login, logout
+- **OAuth Integration**: Google OAuth2 support
+- **JWT Tokens**: Secure token-based authentication
+- **Database**: PostgreSQL with SQLAlchemy ORM
+- **Migrations**: Alembic for database schema management
+- **Scalable Architecture**: Modular structure for easy expansion
 
-**Use GitHub Codespaces**
+## Frontend Features (React)
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+- **Modern UI**: Built with React, TypeScript, and Tailwind CSS
+- **Component Library**: shadcn-ui for consistent design
+- **Fast Development**: Vite for quick builds and hot reloading
+- **Responsive Design**: Mobile-first approach
 
-## What technologies are used for this project?
+## Quick Start
 
-This project is built with:
+### Backend Setup
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+1. **Navigate to backend directory**
+   ```bash
+   cd backend
+   ```
 
-## How can I deploy this project?
+2. **Install Python Dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-Simply open [Lovable](https://lovable.dev/projects/f8ec687c-ef6e-4aa2-835a-a4fda07219cb) and click on Share -> Publish.
+3. **Set Environment Variables**
+   Create a `.env` file in the backend directory:
+   ```
+   DATABASE_URL=postgresql://username:password@localhost/shadiejo
+   SECRET_KEY=your-secret-key-here
+   GOOGLE_CLIENT_ID=your-google-client-id
+   GOOGLE_CLIENT_SECRET=your-google-client-secret
+   ```
 
-## Can I connect a custom domain to my Lovable project?
+4. **Run Database Migrations**
+   ```bash
+   alembic upgrade head
+   ```
 
-Yes, you can!
+5. **Start the Backend**
+   ```bash
+   python run.py
+   ```
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+### Frontend Setup
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+1. **Navigate to frontend directory**
+   ```bash
+   cd frontend
+   ```
+
+2. **Install Node.js Dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Start the Development Server**
+   ```bash
+   npm run dev
+   ```
+
+## API Endpoints (Backend)
+
+### Authentication
+- `POST /auth/signup` - User registration
+- `POST /auth/login` - User login
+- `GET /auth/me` - Get current user info
+- `POST /auth/logout` - User logout
+
+### OAuth
+- `GET /auth/oauth/google` - Google OAuth login
+- `GET /auth/oauth/google/callback` - Google OAuth callback
+
+### Web Pages
+- `GET /` - Home page (login)
+- `GET /login` - Login page
+- `GET /signup` - Signup page
+- `GET /dashboard` - Dashboard page
+
+## Technologies Used
+
+### Backend
+- **FastAPI**: Modern Python web framework
+- **PostgreSQL**: Relational database
+- **SQLAlchemy**: Python ORM
+- **Alembic**: Database migrations
+- **JWT**: Authentication tokens
+- **OAuth2**: Third-party authentication
+
+### Frontend
+- **React**: JavaScript library for building user interfaces
+- **TypeScript**: Typed JavaScript
+- **Vite**: Fast build tool and dev server
+- **Tailwind CSS**: Utility-first CSS framework
+- **shadcn-ui**: Component library
+
+## Development
+
+### Backend Development
+The backend follows a scalable architecture:
+- **app/core/**: Configuration and database setup
+- **app/api/**: API route handlers organized by feature
+- **app/schemas/**: Pydantic models for request/response validation
+- **app/services/**: Business logic
+- **app/utils/**: Utility functions and helpers
+
+### Frontend Development
+The frontend is built with modern React patterns:
+- Component-based architecture
+- TypeScript for type safety
+- Tailwind CSS for styling
+- Vite for fast development
+
+## Testing
+
+### Backend Testing
+```bash
+cd backend
+pytest tests/
+```
+
+### Frontend Testing
+```bash
+cd frontend
+npm test
+```
+
+## Deployment
+
+### Backend Deployment
+The backend is ready for deployment with:
+- Docker support
+- Environment-based configuration
+- Database migrations
+- Static file serving
+
+### Frontend Deployment
+The frontend can be deployed using:
+- [Lovable](https://lovable.dev/projects/f8ec687c-ef6e-4aa2-835a-a4fda07219cb) - Click Share -> Publish
+- Vercel, Netlify, or any static hosting service
+- Custom domain support available
+
+## Lovable Integration
+
+This project is integrated with [Lovable](https://lovable.dev/projects/f8ec687c-ef6e-4aa2-835a-a4fda07219cb) for frontend development:
+
+- Visit the Lovable Project to make frontend changes
+- Changes are automatically committed to this repository
+- Local development is supported with `npm run dev`
+- Custom domains can be connected through Lovable settings

@@ -84,6 +84,7 @@ class Venue(Base):
     price_per_day = Column(Float, nullable=False)
     amenities = Column(Text, nullable=True)  # Comma-separated or JSON string
     images = Column(Text, nullable=True)  # JSON array of base64 images or URLs
+    video = Column(Text, nullable=True)  # Base64 encoded video or URL
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)

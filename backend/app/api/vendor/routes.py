@@ -247,6 +247,7 @@ async def create_venue(
     price_per_day: float = Form(...),
     amenities: str = Form(None),
     images: List[UploadFile] = File(None),
+    video: UploadFile | None = File(None),
     current_vendor: Vendor = Depends(get_current_vendor),
     db: Session = Depends(get_db)
 ):
@@ -258,20 +259,43 @@ async def create_venue(
             detail="Your vendor account must be approved before adding venues"
         )
     
-    # Process images
+    # Process images (at least one image is required)
     image_data_list = []
-    if images:
-        for image in images:
-            if image.filename:
-                content = await image.read()
-                # Validate image size (max 10MB per image)
-                if len(content) > 10 * 1024 * 1024:
-                    raise HTTPException(
-                        status_code=status.HTTP_400_BAD_REQUEST,
-                        detail=f"Image {image.filename} is too large. Maximum 10MB per image."
-                    )
-                image_base64 = base64.b64encode(content).decode('utf-8')
-                image_data_list.append(image_base64)
+    if not images or len(images) == 0:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="At least one image is required to create a venue."
+        )
+
+    for image in images:
+        if image and image.filename:
+            content = await image.read()
+            # Validate image size (max 20MB per image)
+            if len(content) > 20 * 1024 * 1024:
+                raise HTTPException(
+                    status_code=status.HTTP_400_BAD_REQUEST,
+                    detail=f"Image {image.filename} is too large. Maximum 20MB per image."
+                )
+            image_base64 = base64.b64encode(content).decode('utf-8')
+            image_data_list.append(image_base64)
+
+    # Process video (optional)
+    video_base64 = None
+    if video and video.filename:
+        video_content = await video.read()
+        # Validate video size (max 100MB)
+        if len(video_content) > 100 * 1024 * 1024:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Video {video.filename} is too large. Maximum 100MB allowed."
+            )
+        # Basic content type validation
+        if not (video.content_type and video.content_type.startswith("video/")):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Invalid video file type. Please upload a valid video."
+            )
+        video_base64 = base64.b64encode(video_content).decode('utf-8')
     
     # Create venue
     new_venue = Venue(
@@ -284,7 +308,8 @@ async def create_venue(
         capacity=capacity,
         price_per_day=price_per_day,
         amenities=amenities,
-        images=json.dumps(image_data_list) if image_data_list else None
+        images=json.dumps(image_data_list) if image_data_list else None,
+        video=video_base64
     )
     
     db.add(new_venue)

@@ -30,6 +30,7 @@ const AddVenueModal = ({ open, onOpenChange, onVenueAdded }: AddVenueModalProps)
   const [amenities, setAmenities] = useState<string[]>([]);
   const [amenityInput, setAmenityInput] = useState("");
   const [images, setImages] = useState<File[]>([]);
+  const [video, setVideo] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
@@ -80,6 +81,31 @@ const AddVenueModal = ({ open, onOpenChange, onVenueAdded }: AddVenueModalProps)
     }
     
     setImages([...images, ...files]);
+  };
+
+  const handleVideoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = (e.target.files && e.target.files[0]) || null;
+    if (!file) {
+      setVideo(null);
+      return;
+    }
+    if (!file.type.startsWith("video/")) {
+      toast({
+        title: "Invalid File",
+        description: "Please upload a video file",
+        variant: "destructive",
+      });
+      return;
+    }
+    if (file.size > 100 * 1024 * 1024) {
+      toast({
+        title: "File Too Large",
+        description: `${file.name} is too large. Maximum 100MB per video.`,
+        variant: "destructive",
+      });
+      return;
+    }
+    setVideo(file);
   };
 
   const removeImage = (index: number) => {
@@ -153,9 +179,23 @@ const AddVenueModal = ({ open, onOpenChange, onVenueAdded }: AddVenueModalProps)
       formDataToSend.append("price_per_day", formData.price_per_day);
       formDataToSend.append("amenities", amenities.join(", "));
       
+      if (images.length === 0) {
+        toast({
+          title: "Images Required",
+          description: "Please upload at least one image for the venue.",
+          variant: "destructive",
+        });
+        setIsLoading(false);
+        return;
+      }
+
       images.forEach((image) => {
         formDataToSend.append("images", image);
       });
+
+      if (video) {
+        formDataToSend.append("video", video);
+      }
 
       const response = await fetch(`${API_URL}/vendor/venues`, {
         method: "POST",
@@ -392,7 +432,7 @@ const AddVenueModal = ({ open, onOpenChange, onVenueAdded }: AddVenueModalProps)
               >
                 <Upload className="h-8 w-8 text-muted-foreground mb-2" />
                 <span className="text-sm text-muted-foreground">
-                  Click to upload venue images (Max 10MB each)
+                  Click to upload venue images (Max 20MB each) — at least 1 image required
                 </span>
               </Label>
             </div>
@@ -417,6 +457,34 @@ const AddVenueModal = ({ open, onOpenChange, onVenueAdded }: AddVenueModalProps)
                 ))}
               </div>
             )}
+          </div>
+
+          <div className="space-y-2">
+            <Label>Venue Video (optional)</Label>
+            <div className="border-2 border-dashed border-border rounded-lg p-4">
+              <Input
+                type="file"
+                accept="video/*"
+                onChange={handleVideoChange}
+                className="hidden"
+                id="venue-video"
+              }
+              />
+              <Label
+                htmlFor="venue-video"
+                className="flex flex-col items-center justify-center cursor-pointer"
+              >
+                <Upload className="h-8 w-8 text-muted-foreground mb-2" />
+                <span className="text-sm text-muted-foreground">
+                  Click to upload venue video (Max 100MB)
+                </span>
+              </Label>
+              {video && (
+                <div className="mt-3 text-sm text-muted-foreground">
+                  Selected: {video.name} ({Math.round(video.size / (1024 * 1024))} MB)
+                </div>
+              )}
+            </div>
           </div>
 
           <DialogFooter>

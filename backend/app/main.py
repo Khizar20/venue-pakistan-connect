@@ -66,11 +66,8 @@ app.include_router(oauth_router)
 app.include_router(vendor_router)
 app.include_router(admin_router)
 
-# Removed HTML template routes - frontend handles all UI
 
-@app.get("/health")
-async def health_check():
-    return {"status": "healthy", "message": "Shadiejo API is running"}
+# Removed HTML template routes - frontend handles all UI
 
 @app.get("/venues")
 async def get_all_venues(db: Session = Depends(get_db)):

@@ -37,13 +37,10 @@ const AddVenueModal = ({ open, onOpenChange, onVenueAdded }: AddVenueModalProps)
   const venueTypes = [
     "Wedding Hall",
     "Garden Venue",
-    "Conference Center",
     "Banquet Hall",
     "Outdoor Venue",
     "Resort",
-    "Hotel Venue",
-    "Restaurant",
-    "Other"
+    "Hotel Venue"
   ];
 
   const cities = [
@@ -468,7 +465,6 @@ const AddVenueModal = ({ open, onOpenChange, onVenueAdded }: AddVenueModalProps)
                 onChange={handleVideoChange}
                 className="hidden"
                 id="venue-video"
-              }
               />
               <Label
                 htmlFor="venue-video"

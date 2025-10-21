@@ -55,14 +55,14 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen bg-gradient-to-br from-background to-secondary flex items-center justify-center p-4">
+      <Card className="w-full max-w-md shadow-lg border-border">
         <CardHeader className="text-center">
-          <div className="mx-auto w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-4">
-            <Lock className="w-6 h-6 text-red-600" />
+          <div className="mx-auto w-12 h-12 bg-maroon rounded-full flex items-center justify-center mb-4">
+            <Lock className="w-6 h-6 text-primary-foreground" />
           </div>
-          <CardTitle className="text-2xl font-bold text-gray-900">Admin Login</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-2xl font-bold text-foreground font-serif">Admin Login</CardTitle>
+          <CardDescription className="text-muted-foreground">
             Enter your admin credentials to access the dashboard
           </CardDescription>
         </CardHeader>
@@ -117,7 +117,7 @@ const AdminLogin = () => {
 
             <Button
               type="submit"
-              className="w-full"
+              className="w-full bg-maroon hover:bg-maroon-light text-primary-foreground"
               disabled={isLoading}
             >
               {isLoading ? "Signing in..." : "Sign In"}
@@ -125,8 +125,8 @@ const AdminLogin = () => {
           </form>
 
           <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
-              Default credentials: <strong>admin</strong> / <strong>admin</strong>
+            <p className="text-sm text-muted-foreground">
+              Default credentials: <strong className="text-foreground">admin</strong> / <strong className="text-foreground">admin</strong>
             </p>
           </div>
         </CardContent>
